@@ -92,8 +92,8 @@ The morning content is a single notebook, while the afternoon is split into mult
 |-------|------|
 | 01. Introducing Julia | https://github.com/barrettp/JuliaAASWorkshop/raw/main/01-intro-to-julia.jl |
 | 02. Image Analysis | https://github.com/barrettp/JuliaAASWorkshop/raw/main/02-image-analysis.jl |
-| 03. Time Series | https://github.com/barrettp/JuliaAASWorkshop/raw/main/03-time-series.jl |
-| 04. Statistics | https://github.com/barrettp/JuliaAASWorkshop/raw/main/04-statistics.jl |
+| 03. Time Series of AR Sco | https://github.com/barrettp/JuliaAASWorkshop/raw/main/03-time-series.jl |
+| 04. Statistics of SNRs | https://github.com/barrettp/JuliaAASWorkshop/raw/main/04-statistics.jl |
 | 05. Optimization | https://github.com/barrettp/JuliaAASWorkshop/raw/main/05-optimization.jl |
 | 06. Symbolic Manipulation | https://github.com/barrettp/JuliaAASWorkshop/raw/main/06-symbolic-manipulation.jl |
 | 07. Calling Python | https://github.com/barrettp/JuliaAASWorkshop/raw/main/07-calling-python.jl |

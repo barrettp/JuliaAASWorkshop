@@ -94,7 +94,7 @@ The morning content is a single notebook, while the afternoon is split into mult
 | 07. Calling Python | https://github.com/barrettp/JuliaAASWorkshop/raw/main/07-calling-python.jl |
 | 08. Using Macros | https://github.com/barrettp/JuliaAASWorkshop/raw/main/08-using-macros.jl |
 | 09. Astronomy Packages | https://github.com/barrettp/JuliaAASWorkshop/raw/main/09-astro-packages.jl |
-| 10. Optimizing Code | https://github.com/barrettp/JuliaAASWorkshop/raw/main/10-optimization.jl |
-| 11. Parallel Computing | https://github.com/barrettp/JuliaAASWorkshop/raw/main/11-parallel_computing.jl |
+| 10. Optimizing Code | https://github.com/barrettp/JuliaAASWorkshop/raw/main/10-optimizing-code.jl |
+| 11. Parallel Computing | https://github.com/barrettp/JuliaAASWorkshop/raw/main/11-parallel-computing.jl |
 | 12. Creating Packages | https://github.com/barrettp/JuliaAASWorkshop/raw/main/12-creating-packages.jl | 
 | 13. Questions and Special Topics | |

@@ -1,6 +1,6 @@
 # Julia AAS Workshop
 
-[**Jump to installation instructions**](#setup)
+[**Jump to installation instructions**](#installation-instructions)
 
 [**Jump to workshop contents**](#workshop-contents)
 

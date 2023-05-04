@@ -90,11 +90,11 @@ The morning content is a single notebook, while the afternoon is split into mult
 
 | Topic | Link | 
 |-------|------|
-| 1. Introducing Julia | https://github.com/sefffal/AASJuliaWorkshop/raw/main/1-intro-to-julia.jl |
-| 2. Calling Python | https://github.com/sefffal/AASJuliaWorkshop/raw/main/07-calling-python.jl |
-| 3. Using Macros | http://github.com/sefffal/AASJuliaWorkshop/raw/main/08-using-macros.jl |
-| 4. Astronomy Packages | https://github.com/sefffal/AASJuliaWorkshop/raw/main/09-astro-packages.jl |
-| 5. Optimizing Code | https://github.com/sefffal/AASJuliaWorkshop/raw/main/10-optimization.jl |
-| 6. Parallel Computing | https://github.com/sefffal/AASJuliaWorkshop/raw/main/11-parallel_computing.jl |
-| 7. Creating Packages | https://github.com/sefffal/AASJuliaWorkshop/raw/main/12-creating-packages.jl | 
-| 8. Questions and Special Topics | |
+| 01. Introducing Julia | https://github.com/sefffal/AASJuliaWorkshop/raw/main/1-intro-to-julia.jl |
+| 07. Calling Python | https://github.com/sefffal/AASJuliaWorkshop/raw/main/07-calling-python.jl |
+| 08. Using Macros | http://github.com/sefffal/AASJuliaWorkshop/raw/main/08-using-macros.jl |
+| 09. Astronomy Packages | https://github.com/sefffal/AASJuliaWorkshop/raw/main/09-astro-packages.jl |
+| 10. Optimizing Code | https://github.com/sefffal/AASJuliaWorkshop/raw/main/10-optimization.jl |
+| 11. Parallel Computing | https://github.com/sefffal/AASJuliaWorkshop/raw/main/11-parallel_computing.jl |
+| 12. Creating Packages | https://github.com/sefffal/AASJuliaWorkshop/raw/main/12-creating-packages.jl | 
+| 13. Questions and Special Topics | |

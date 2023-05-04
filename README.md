@@ -14,7 +14,7 @@ The objectives of this tutorial are: (1) to introduce astronomers and software d
 
 The workshop is divided into morning and afternoon sessions. Both sessions contain six half hour tutorials. The morning tutorials will introduce a few features of the language, such as unicode characters, multi-dimensional arrays, and functions, while using various Julia packages to perform simple data analysis using multiwavelength data. The afternoon tutorials will introduce a few language concepts, such as composability, multiple dispatch, and macros, while cover some advanced programming techniques, such as calling Python, using macros, optimizing code, creating packges, and parallel computation.
 
-## Setup
+## Installation Instructions
 
 We will be using Julia and Pluto notebooks. Please follow these installation instructions before the start of the workshop. If you run into to difficulties, please feel free to contact the organizers or let us know at the start of the workshop.
 

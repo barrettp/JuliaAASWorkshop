@@ -93,13 +93,10 @@ The morning content is a single notebook, while the afternoon is split into mult
 | 01. Introducing Julia | https://github.com/barrettp/JuliaAASWorkshop/raw/main/01-intro-to-julia.jl |
 | 02. Modeling an LC Circuit | https://github.com/barrettp/JuliaAASWorkshop/raw/main/02-doing-modeling.jl |
 | 03. Statistics of SNRs | https://github.com/barrettp/JuliaAASWorkshop/raw/main/03-doing-statistics.jl |
-| 04. Time series Analysis | https://github.com/barrettp/JuliaAASWorkshop/raw/main/04-doing-time-series.jl |
-| 05. Optimization | https://github.com/barrettp/JuliaAASWorkshop/raw/main/05-optimization.jl |
-| 06. Symbolic Manipulation | https://github.com/barrettp/JuliaAASWorkshop/raw/main/06-symbolic-manipulation.jl |
-| 07. Calling Python | https://github.com/barrettp/JuliaAASWorkshop/raw/main/07-calling-python.jl |
-| 08. Using Macros | https://github.com/barrettp/JuliaAASWorkshop/raw/main/08-using-macros.jl |
-| 09. Astronomy Packages | https://github.com/barrettp/JuliaAASWorkshop/raw/main/09-astro-packages.jl |
-| 10. Optimizing Code | https://github.com/barrettp/JuliaAASWorkshop/raw/main/10-optimizing-code.jl |
-| 11. Parallel Computing | https://github.com/barrettp/JuliaAASWorkshop/raw/main/11-parallel-computing.jl |
-| 12. Creating Packages | https://github.com/barrettp/JuliaAASWorkshop/raw/main/12-creating-packages.jl | 
-| 13. Questions and Special Topics | |
+| 04. Calling Python | https://github.com/barrettp/JuliaAASWorkshop/raw/main/04-calling-python.jl |
+| 05. Using Macros | https://github.com/barrettp/JuliaAASWorkshop/raw/main/05-using-macros.jl |
+| 06. Astronomy Packages | https://github.com/barrettp/JuliaAASWorkshop/raw/main/06-astro-packages.jl |
+| 07. Optimizing Code | https://github.com/barrettp/JuliaAASWorkshop/raw/main/07-optimizing-code.jl |
+| 08. Parallel Computing | https://github.com/barrettp/JuliaAASWorkshop/raw/main/08-parallel-computing.jl |
+| 09. Creating Packages | https://github.com/barrettp/JuliaAASWorkshop/raw/main/09-creating-packages.jl | 
+| 10. Questions and Special Topics | |

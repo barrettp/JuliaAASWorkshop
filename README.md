@@ -16,7 +16,7 @@ The workshop is divided into morning and afternoon sessions. The morning session
 
 ## Installation Instructions
 
-We will be using Julia and Pluto notebooks. Please follow these installation instructions before the start of the workshop. If you run into to difficulties, please feel free to contact the organizers or let us know at the start of the workshop.
+We will be using Julia and Pluto notebooks to make the installation process as easy and painless as possible. Please follow these installation instructions before the start of the workshop. If you run into to difficulties, please feel free to contact the organizers or let us know at the start of the workshop.
 
 Note: Pluto notebooks are not compatible with Jupyter.
 

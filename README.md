@@ -6,13 +6,13 @@
 
 This repository contains material for the AAS Workshop "An Introduction to the Julia Programming Language"
 
-Date: **Sunday, June 4, 2023, 9:00 am - 5:00 pm (hybrid)**
+Date: **Sunday, January 7, 2024, 9:00 am - 5:00 pm (hybrid)**
 
-The Julia programming language can be considered the successor to Scientific Python (SciPy). The language is designed for scientific computing by having built-in multidimensional arrays and parallel processing features. Yet, it can also be used as a general-purpose programming language like Python. Unlike Python, Julia solves the two-language problem by using just-in-time (JIT) compilation to generate machine code from high level expressions. In most cases, Julia is as fast as C, and in some cases faster. Julia is also a composable language, so independent libraries or packages usually work well together without any modification. These important features make Julia a very productive language for scientific software development by reducing the number of lines of code.
+The Julia programming language can be considered the successor to Scientific Python (SciPy). The language is designed for scientific computing by having built-in multidimensional arrays and parallel processing features. Yet, it can also be used as a general-purpose programming language like Python. Unlike Python, Julia solves the two-language problem by using just-in-time (JIT) compilation to generate machine code from high level expressions. In most cases, Julia is as fast as C, and in some cases faster. Julia is also a composable language, so independent libraries or packages usually work well together without any modification. These important features make Julia a very productive language for scientific software development by significantly reducing the number of lines of code. In essence, Julia is Python with Numba built-in. 
 
 The objectives of this tutorial are: (1) to introduce astronomers and software developers to the basic language syntax, features, and power of the Julia programming language, (2) to compare and contrast Julia’s design features to those of C/C++ and Python, and (3) to show that Julia provides an easy migration path from languages such as C/C++, FORTRAN, and Python. In other words, it is not necessary to rewrite all of your code all at once.
 
-The workshop is divided into morning and afternoon sessions. Both sessions contain six half hour tutorials. The morning tutorials will introduce a few features of the language, such as unicode characters, multi-dimensional arrays, and functions, while using various Julia packages to perform simple data analysis using multiwavelength data. The afternoon tutorials will introduce a few language concepts, such as composability, multiple dispatch, and macros, while cover some advanced programming techniques, such as calling Python, using macros, optimizing code, creating packges, and parallel computation.
+The workshop is divided into morning and afternoon sessions. The morning session contains three one hour tutorials, while the afternoon session contains six half hour tutorials. The morning tutorials will introduce a few features of the language, such as unicode characters, multi-dimensional arrays, and functions, while using various Julia packages to perform simple data analysis using multiwavelength data. The afternoon tutorials will introduce a few language concepts, such as composability, multiple dispatch, and macros, while cover some advanced programming techniques, such as calling Python, using macros, optimizing code, creating packges, and parallel computation.
 
 ## Installation Instructions
 
@@ -21,7 +21,7 @@ We will be using Julia and Pluto notebooks. Please follow these installation ins
 Note: Pluto notebooks are not compatible with Jupyter.
 
 ### Installing Julia
-Please [install the latest stable version of Julia](https://julialang.org/downloads/) (1.9.0 as of May, 2023) on you computer. Make sure to use the links on the official Julia website linked above, rather than any 3rd party package manager (e.g. homebrew, apt, nuget, etc.).
+Please [install the latest stable version of Julia](https://julialang.org/downloads/) (1.9.4 as of Dec, 2023) on you computer. Make sure to use the links on the official Julia website linked above, rather than any 3rd party package manager (e.g. homebrew, apt, nuget, etc.).
 
 For more advanced users, [JuliaUp](https://github.com/JuliaLang/juliaup) can be used to install, update, and switch between versions of Julia. 
 

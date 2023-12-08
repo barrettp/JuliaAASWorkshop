@@ -86,7 +86,7 @@ The material for each section is stored as a [Pluto notebook](https://plutojl.or
 
 Copy the link for a given section below and paste it into the "Open a Notebook" box in Pluto.
 
-The morning content is a single notebook, while the afternoon is split into multiple topics.
+The morning content is notebooks 1-3, while the afternoon is notebooks 4-9.
 
 | Topic | Link | 
 |-------|------|

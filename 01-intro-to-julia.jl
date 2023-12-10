@@ -30,7 +30,7 @@ In about 2009, four faculty members at MIT, who were not satisfied with the stat
 
 ### Why Have I migrated to Julia?
 
-Although an early advocate and developer of Numerical and Scientific Python, I knew its limitations, namely, the two language problem. Therefore, once a better scientific programming language came along, I was prepared to migrate to it. I believe, Julia is that language. Julia is Python with Numba built-in.
+Although an early advocate and developer of Numerical and Scientific Python, I knew its limitations, namely, the two language problem. Therefore, once a better scientific programming language came along, I was prepared to migrate to it. I believe, Julia is that language. Think of Julia as Python with Numba built-in.
 
 !!! note
     Numba is a Just-In-Time (JIT) interpreter and compiler for Numerical Python. It compiles Numarrays to machine code on the fly.

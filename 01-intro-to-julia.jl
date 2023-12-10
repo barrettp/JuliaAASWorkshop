@@ -13,7 +13,7 @@ md"""
 
 ### Historical Context
 
-Twenty-six years ago at ADASS VI, Harrington and Barrett hosted a Birds-of-a-Feather session entitled "Interactive Data Analysis Environments". Based on their review of over a dozen interpreted programming languages such as Glish, GUILE, IDL, IRAF, Matlab, Perl, Python, and Tcl; they recommended that Python be considered the primary language for astronomical data analysis. The primary reasons were that the language was simple to learn, yet powerful; well supported by the programming community; and had FORTRAN-like arrays. However, for good performance, the multi-dimensional arrays needed to be written in a compiled language, namely C. So Numerical Python suffered from the "two language problem".
+Twenty-seven years ago at the Astronomical Data Analysis Software and Systems (ADASS) VI Meeting, Harrington and Barrett hosted a Birds-of-a-Feather session entitled "Interactive Data Analysis Environments". Based on their review of over a twenty interpreted programming languages such as Glish, GUILE, IDL, IRAF, Matlab, Perl, Python, and Tcl; they recommended that Python be considered the primary language for astronomical data analysis. The primary reasons were that the language was simple to learn, yet powerful; well supported by the programming community; and had FORTRAN-like arrays. However, for good performance, the multi-dimensional arrays needed to be written in a compiled language, namely C. So Numerical Python suffered from the "two language problem".
 
 ### Why Julia?
 
@@ -30,7 +30,10 @@ In about 2009, four faculty members at MIT, who were not satisfied with the stat
 
 ### Why Have I migrated to Julia?
 
-Although an early advocate and developer of Numerical Python, I knew its limitations, namely, the two language problem. Therefore, once a better scientific programming language came along, I was prepared to migrate to it. Julia is that language.
+Although an early advocate and developer of Numerical and Scientific Python, I knew its limitations, namely, the two language problem. Therefore, once a better scientific programming language came along, I was prepared to migrate to it. I believe, Julia is that language. Julia is Python with Numba built-in.
+
+!!! note
+    Numba is a Just-In-Time (JIT) interpreter and compiler for Numerical Python. It compiles Numarrays to machine code on the fly.
 """
 
 # ╔═╡ b1ed2c4e-f5fa-4e5e-87d8-7af6f80a83ca
@@ -55,14 +58,13 @@ Enter `julia` at the terminal prompt. Set the number of threads to `auto`. Threa
       (_)     | (_) (_)    |
        _ _   _| |_  __ _   |  Type "?" for help, "]?" for Pkg help.
       | | | | | | |/ _` |  |
-      | | |_| | | | (_| |  |  Version 1.9.0 (2023-05-07)
+      | | |_| | | | (_| |  |  Version 1.9.4 (2023-11-14)
      _/ |\__'_|_|_|\__'_|  |  Official https://julialang.org/ release
     |__/                   |
 
     julia>
 
 !!! tip
-
     The command line option "-q" can be used to remove the start-up banner.
 """
 
@@ -75,6 +77,8 @@ md"""
 To exit Julia, enter `<Ctl-D>` or `exit()`
 
     julia> <Ctl-D>
+
+This character combination is the same as Python, because <Ctl-D> means end-of-file.
 
 !!! tip
     Don't do this now!
@@ -100,7 +104,7 @@ Our first command:
 # ╔═╡ 7813824a-cae9-4b97-ac90-e542fbd630d5
 md"""
 !!! note
-    Unlike Jupyter and the REPL, Pluto prints the result above the line, not below.
+    Unlike Jupyter and the REPL, Pluto prints the result above the line, not below. stdout and stderr are printed below.
 
 Our first calculation
 
@@ -201,7 +205,7 @@ To use or load a package (after it has been added),
     julia> using <package>
     julia> using <package1>, <package2>
 
-A feature of the 'using' command is that it will add the package, if it hasn't alaredy been added.
+A feature of the 'using' command is that it will add the package, if it hasn't already been added.
 """
 
 # ╔═╡ 948b4044-aee8-4b21-b9a5-4949adb9e01e
@@ -264,11 +268,11 @@ Let's do some more calculations.
 
 
 # ╔═╡ 094b6f30-cbd6-46b1-8e0c-3fdb1ef18261
-md"""Typing 'measurements' is rather awkward. There must be a better way. How about the following?
+md"""Typing 'measurement' is rather awkward. There must be a better way. How about the following?
 
     m2 = 15 ± 0.3
 
-where the plus-minus character is entered using LaTex syntax followed by tab, i.e., \pm<tab>.
+where the plus-minus character is entered using LaTeX syntax followed by tab, i.e., \pm<tab>.
 """
 
 
@@ -323,7 +327,7 @@ Let's see if this works with one dimensional arrays or vectors.
 
     γ = [10 ± 0.1, 20 ± 0.2, 30 ± 0.3]u"m/s" .* [15 ± 0.01, 25 ± 0.02, 25 ± 0.03]u"s"
 
-Note the dot '.' before the multiplication character '\*'.  This means element-wise multiplication. Whereas the multiplication character '\*' by itself means matrix multiplication. If you are coming from Python, this difference may take a little time.
+Note the dot '.' before the multiplication character '\*'.  This means element-wise multiplication. Whereas the multiplication character '\*' by itself means matrix multiplication. If you are coming from Python, this difference may take a little time to get used to.
 """
 
 # ╔═╡ fdba7211-e480-4948-8435-76a7608e7e63
@@ -351,7 +355,7 @@ md"""
 
 ## Language Basics
 
-Because of Julia's multiple dispatch, types and functions are loosely bound. Thus, it is not a true object-oriented language, where functions are selected for execution using single dispatch. Multi-dispatch will be explained later when we dicsuss functions.
+Because of Julia's multiple dispatch, types and functions are loosely bound. Thus, it is not a true object-oriented language, where functions are selected for execution using single dispatch. Multi-dispatch will be explained later when we discuss functions.
 """
 
 # ╔═╡ f37bc13e-fa91-4166-983b-fd13a8493435
@@ -397,7 +401,7 @@ Let's see how this works. Try the above examples.
 md"""Julia has various categories of types within a type-hierarchy. The following are some of the more common types.
 
 !!! note
-    Types should be capitalized.
+    The standard Julia protocol for Types is that they are capitalized.
 """
 
 # ╔═╡ 0ad9aa76-f6c7-4368-8ae4-58daa548e065
@@ -511,7 +515,7 @@ md"""    "This is a string" """
 
 # ╔═╡ 31dfb05b-ed87-48f9-a74c-0055e46de160
 md"""
-Triple quotes work the same as in Python.
+Triple quotes work the same as in Python, i.e., it defines a quote block.
 
     \"""
     This is line 1.
@@ -697,7 +701,7 @@ md"""
     In many cases, a function with generic arguments is sufficiently performant. But in those cases where extreme performance is needed, defining methods with specific argument types may be necessary.
 
 !!! note
-    One-line functions are usually inlined by the compiler. So, there is usually no performance penalty for using them. Multi-lined functions may also be inlined.
+    One-line functions are usually inlined by the compiler. So, there is usually no performance penalty for using them. Also, short multi-lined functions are often inlined.
 """
 
 # ╔═╡ 197727b0-f566-4953-94fd-9062f8d4e828
@@ -736,16 +740,18 @@ md"""#### Functors
 
 Functors are anonymous functions that are defined only by their argument signature. They are synonymous with callable objects in Python.
 
-    struct Polynomial{R}
-        coeffs::Vector{R}
-    end
-    
-    function (p::Polynomial)(x)
-        v = p.coeffs[end]
-        for i = (length(p.coeffs)-1):-1:1
-           v = v*x + p.coeffs[i]
+    begin
+        struct Polynomial{R}
+            coeffs::Vector{R}
         end
-        return v
+    
+        function (p::Polynomial)(x)
+            v = p.coeffs[end]
+            for i = (length(p.coeffs)-1):-1:1
+               v = v*x + p.coeffs[i]
+            end
+            return v
+        end
     end
 
     p = Polynomial([1,10,100])

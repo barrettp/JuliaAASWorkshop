@@ -5,7 +5,7 @@ using Markdown
 using InteractiveUtils
 
 # ╔═╡ 947ccfa4-57be-4753-b9fa-c101fb52ee1b
-using PlutoUI
+using PlutoUI; TableOfContents()
 
 # ╔═╡ 5ddccdea-fb04-11ed-343e-4753618b2032
 md"""

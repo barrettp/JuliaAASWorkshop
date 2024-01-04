@@ -1,14 +1,11 @@
 ### A Pluto.jl notebook ###
-# v0.19.19
+# v0.19.36
 
 using Markdown
 using InteractiveUtils
 
 # ╔═╡ 5d8d2585-5c04-4f33-b547-8f44b3336f96
-using PlutoUI
-
-# ╔═╡ f3d6edf3-f898-4772-80b7-f2aeb0f69216
-using BenchmarkTools
+using PlutoUI; TableOfContents()
 
 # ╔═╡ cab50215-8895-4789-997f-589f017b2b84
 using PyCall
@@ -19,14 +16,11 @@ using LinearAlgebra
 # ╔═╡ b83ba8db-b9b3-4921-8a93-cf0733cec7aa
 using CUDA
 
-# ╔═╡ 5dbe9644-eb50-4204-b8c6-a1aac5fe3736
-PlutoUI.TableOfContents()
-
 # ╔═╡ a2680f00-7c9a-11ed-2dfe-d9cd445f2e57
 md"""
 # Optimization of Algorithms
 
-Julia is a high-performance language. However, like any computer language, certain constructs are faster and will better take advantage of your computer's resources. This tutorial will overview how you can use Julia and some of its unique features to enable blazing-fast performance.
+Julia is a high-performance language. However, like any computer language, certain constructs are faster and use your computer's resources more efficiently. This tutorial will overview how you can use Julia and some of its unique features to enable blazing-fast performance.
 
 However, to achieve good performance, there are a couple of things to keep in mind.
 
@@ -48,13 +42,23 @@ end
 """
 
 # ╔═╡ b90d6694-b170-4646-b5a0-e477d4fe6f50
+begin
+	gl = rand(1000)
 
+	function global_update()
+		for i in eachindex(gl)
+			gl[i] += 1
+		end
+	end
+end
 
 # ╔═╡ 5ed407ea-4bba-4eaf-b47a-9ae95b28abba
 md"""
 Now let's check the performance of this function. To do this, we will use the excellent benchmarking package [`BenchmarTools.jl`](https://github.com/JuliaCI/BenchmarkTools.jl) and the macro `@benchmark`, which runs the function multiple times and outputs a histogram of the time it took to execute the function
 
 ```julia
+using BenchmarkTools
+
 @benchmark global_update()
 
 BenchmarkTools.Trial: 10000 samples with 1 evaluation.
@@ -75,6 +79,9 @@ BenchmarkTools.Trial: 10000 samples with 1 evaluation.
 md"""
 **Try this benchmark below**
 """
+
+# ╔═╡ f3d6edf3-f898-4772-80b7-f2aeb0f69216
+
 
 # ╔═╡ 530368ec-ec33-4204-ac44-9dbabaca0dc4
 
@@ -572,7 +579,7 @@ julia> @benchmark bench_np($x, $y, $c)
 """
 
 # ╔═╡ a0c8660c-3ddb-4795-b3c9-a63cc64c8c00
-
+@benchmark bench_np($x, $y, $c)
 
 # ╔═╡ cb3bb128-49d3-4996-84e2-5154e13bbfbd
 md"""
@@ -590,7 +597,13 @@ end
 """
 
 # ╔═╡ 924d11a7-5161-4b13-a1f6-a1a8530736da
-
+function serial_loop(x, y, c)
+	out = similar(x)
+	for i in eachindex(x, y, c)
+		out[i] = x[i]*y[i] + c[i]^3
+	end
+	return out
+end
 
 # ╔═╡ 40381501-952a-48a5-9a28-ee4bf1c65fd4
 md"""
@@ -600,7 +613,7 @@ md"""
 """
 
 # ╔═╡ 0be6a2d0-f470-436c-bbd7-8bab3635a34d
-
+@benchmark serial_loop($x, $y, $c)
 
 # ╔═╡ 7fad0fc0-1a6a-437a-a1c2-ce2c70d41acf
 md"""
@@ -625,6 +638,15 @@ end
 	If you index with `eachindex` or `CartesianIndices` Julia can often automatically remove the bounds-check for you. The moral - always use Julia's iterator interfaces where possible. This example doesn't because `out` is not included in `eachindex`
 """
 
+# ╔═╡ 54a92a14-405a-45d1-ad3a-5f42e4ce8789
+function serial_loop_inbounds(x, y, c)
+	out = similar(x)
+	@inbounds for i in eachindex(x, y, c)
+		out[i] = x[i]*y[i] + c[i]^3
+	end
+	return out
+end
+
 # ╔═╡ 946da67e-5aff-4de9-ba15-715a05264c4d
 md"""
 ```julia
@@ -633,7 +655,7 @@ md"""
 """
 
 # ╔═╡ 4da9796c-5102-44e7-8af3-dadbdabcce73
-
+@benchmark serial_loop_inbounds($x, $y, $c)
 
 # ╔═╡ db4ceb7c-4ded-4048-88db-fd15b3231a5c
 md"""
@@ -653,7 +675,12 @@ end
 """
 
 # ╔═╡ fc2351f5-f808-499d-8251-d12c93a2be0e
-
+function serial_loop!(out, x, y, c)
+	@inbounds for i in eachindex(x, y, c)
+		out[i] = x[i]*y[i] + c[i]^3
+	end
+	return out
+end
 
 # ╔═╡ 2bd7d41e-f2c9-47cd-8d5b-a2cfef84a830
 out = similar(x)
@@ -666,7 +693,7 @@ md"""
 """
 
 # ╔═╡ f5ecdd06-addb-4913-996b-164e337853c2
-
+@benchmark serial_loop!(out, x, y, c)
 
 # ╔═╡ c14acc67-dbb2-4a86-a811-de857769a472
 md"""
@@ -686,7 +713,10 @@ end
 """
 
 # ╔═╡ f9a938d8-dce9-4ef0-967e-5b3d5384ca9b
-
+function bcast_loop(x, y, c)
+	return x.*y .+ c.^3
+	# or @. x*y + c^3
+end
 
 # ╔═╡ 38bafb52-14f0-4a42-8e73-de1ada31c87e
 md"""
@@ -696,7 +726,7 @@ md"""
 """
 
 # ╔═╡ 785a379a-e6aa-4919-9c94-99e277b57844
-
+@benchmark bcast_loop($x, $y, $c)
 
 # ╔═╡ 232cd259-5ff4-42d2-8ae1-cb6823114635
 md"""
@@ -711,7 +741,10 @@ end
 """
 
 # ╔═╡ 168aee22-6769-4077-a9da-a27689e6bb32
-
+function bcast_loop!(out, x, y, c)
+	out .= x.*y .+ c.^3
+	# or @. out = x*y + c^3
+end
 
 # ╔═╡ 985cd6ec-bd2d-4dd9-bfbe-0bb066036150
 md"""
@@ -721,7 +754,7 @@ md"""
 """
 
 # ╔═╡ 6acbaed4-6ff3-45be-9b28-595213206218
-
+@benchmark bcast_loop!($out, $x, $y, $c)
 
 # ╔═╡ 587d98d8-f805-4c4f-bf2f-1887d86adf05
 md"""
@@ -744,7 +777,7 @@ eigen.(A)
 """
 
 # ╔═╡ 90bd7f7b-3cc1-43ab-8f78-c1e8339a79bf
-
+eigen.(A)
 
 # ╔═╡ 608a3a98-924f-45ef-aeca-bc5899dd8c7b
 md"""
@@ -787,14 +820,12 @@ This is just the start of various performance tips in Julia. There exist many ot
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
 [deps]
-BenchmarkTools = "6e4b80f9-dd63-53aa-95a3-0cdb28fa8baf"
 CUDA = "052768ef-5323-5732-b1bb-66c8b64840ba"
 LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
 PlutoUI = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
 PyCall = "438e738f-606a-5dbb-bf0a-cddfbfd45ab0"
 
 [compat]
-BenchmarkTools = "~1.3.2"
 CUDA = "~3.12.0"
 PlutoUI = "~0.7.49"
 PyCall = "~1.94.1"
@@ -804,9 +835,9 @@ PyCall = "~1.94.1"
 PLUTO_MANIFEST_TOML_CONTENTS = """
 # This file is machine-generated - editing it directly is not advised
 
-julia_version = "1.8.4"
+julia_version = "1.10.0"
 manifest_format = "2.0"
-project_hash = "0ef5d0582d704353803bf3ec48e942b983cdbeae"
+project_hash = "44d3c7b34f2e1635d255a53b0fc0790689eb4660"
 
 [[deps.AbstractFFTs]]
 deps = ["ChainRulesCore", "LinearAlgebra"]
@@ -841,12 +872,6 @@ version = "0.2.0"
 
 [[deps.Base64]]
 uuid = "2a0f44e3-6c83-55bd-87e4-b1978d98bd5f"
-
-[[deps.BenchmarkTools]]
-deps = ["JSON", "Logging", "Printf", "Profile", "Statistics", "UUIDs"]
-git-tree-sha1 = "d9a9701b899b30332bbcb3e1679c41cce81fb0e8"
-uuid = "6e4b80f9-dd63-53aa-95a3-0cdb28fa8baf"
-version = "1.3.2"
 
 [[deps.CEnum]]
 git-tree-sha1 = "eb4cb44a499229b3b8426dcfb5dd85333951ff90"
@@ -886,7 +911,7 @@ version = "4.5.0"
 [[deps.CompilerSupportLibraries_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "e66e0078-7015-5450-92f7-15fbd957f2ae"
-version = "1.0.1+0"
+version = "1.0.5+1"
 
 [[deps.Conda]]
 deps = ["Downloads", "JSON", "VersionParsing"]
@@ -1005,27 +1030,32 @@ uuid = "4af54fe1-eca0-43a8-85a7-787d91b784e3"
 [[deps.LibCURL]]
 deps = ["LibCURL_jll", "MozillaCACerts_jll"]
 uuid = "b27032c2-a3e7-50c8-80cd-2d36dbcbfd21"
-version = "0.6.3"
+version = "0.6.4"
 
 [[deps.LibCURL_jll]]
 deps = ["Artifacts", "LibSSH2_jll", "Libdl", "MbedTLS_jll", "Zlib_jll", "nghttp2_jll"]
 uuid = "deac9b47-8bc7-5906-a0fe-35ac56dc84c0"
-version = "7.84.0+0"
+version = "8.4.0+0"
 
 [[deps.LibGit2]]
-deps = ["Base64", "NetworkOptions", "Printf", "SHA"]
+deps = ["Base64", "LibGit2_jll", "NetworkOptions", "Printf", "SHA"]
 uuid = "76f85450-5226-5b5a-8eaa-529ad045b433"
+
+[[deps.LibGit2_jll]]
+deps = ["Artifacts", "LibSSH2_jll", "Libdl", "MbedTLS_jll"]
+uuid = "e37daf67-58a4-590a-8e99-b0245dd2ffc5"
+version = "1.6.4+0"
 
 [[deps.LibSSH2_jll]]
 deps = ["Artifacts", "Libdl", "MbedTLS_jll"]
 uuid = "29816b5a-b9ab-546f-933c-edad1886dfa8"
-version = "1.10.2+0"
+version = "1.11.0+1"
 
 [[deps.Libdl]]
 uuid = "8f399da3-3557-5675-b5ff-fb832c97cbdb"
 
 [[deps.LinearAlgebra]]
-deps = ["Libdl", "libblastrampoline_jll"]
+deps = ["Libdl", "OpenBLAS_jll", "libblastrampoline_jll"]
 uuid = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
 
 [[deps.LogExpFunctions]]
@@ -1055,14 +1085,14 @@ uuid = "d6f4376e-aef5-505a-96c1-9c027394607a"
 [[deps.MbedTLS_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "c8ffd9c3-330d-5841-b78e-0817d7145fa1"
-version = "2.28.0+0"
+version = "2.28.2+1"
 
 [[deps.Mmap]]
 uuid = "a63ad114-7e13-5084-954f-fe012c677804"
 
 [[deps.MozillaCACerts_jll]]
 uuid = "14a3606d-f60d-562e-9121-12d972cd8159"
-version = "2022.2.1"
+version = "2023.1.10"
 
 [[deps.NetworkOptions]]
 uuid = "ca575930-c2e3-43a9-ace4-1e988b2c1908"
@@ -1071,12 +1101,12 @@ version = "1.2.0"
 [[deps.OpenBLAS_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "Libdl"]
 uuid = "4536629a-c528-5b80-bd46-f80d51c5b363"
-version = "0.3.20+0"
+version = "0.3.23+2"
 
 [[deps.OpenLibm_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "05823500-19ac-5b8b-9628-191a04bc5112"
-version = "0.8.1+0"
+version = "0.8.1+2"
 
 [[deps.OpenSpecFun_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "JLLWrappers", "Libdl", "Pkg"]
@@ -1091,9 +1121,9 @@ uuid = "69de0a69-1ddd-5017-9359-2bf0b02dc9f0"
 version = "2.5.2"
 
 [[deps.Pkg]]
-deps = ["Artifacts", "Dates", "Downloads", "LibGit2", "Libdl", "Logging", "Markdown", "Printf", "REPL", "Random", "SHA", "Serialization", "TOML", "Tar", "UUIDs", "p7zip_jll"]
+deps = ["Artifacts", "Dates", "Downloads", "FileWatching", "LibGit2", "Libdl", "Logging", "Markdown", "Printf", "REPL", "Random", "SHA", "Serialization", "TOML", "Tar", "UUIDs", "p7zip_jll"]
 uuid = "44cfe95a-1eb2-52ea-b672-e2afdf69b78f"
-version = "1.8.0"
+version = "1.10.0"
 
 [[deps.PlutoUI]]
 deps = ["AbstractPlutoDingetjes", "Base64", "ColorTypes", "Dates", "FixedPointNumbers", "Hyperscript", "HypertextLiteral", "IOCapture", "InteractiveUtils", "JSON", "Logging", "MIMEs", "Markdown", "Random", "Reexport", "URIs", "UUIDs"]
@@ -1111,10 +1141,6 @@ version = "1.3.0"
 deps = ["Unicode"]
 uuid = "de0858da-6303-5e67-8744-51eddeeeb8d7"
 
-[[deps.Profile]]
-deps = ["Printf"]
-uuid = "9abbd945-dff8-562f-b5e8-e1ebf5ef1b79"
-
 [[deps.PyCall]]
 deps = ["Conda", "Dates", "Libdl", "LinearAlgebra", "MacroTools", "Serialization", "VersionParsing"]
 git-tree-sha1 = "53b8b07b721b77144a0fbbbc2675222ebf40a02d"
@@ -1126,7 +1152,7 @@ deps = ["InteractiveUtils", "Markdown", "Sockets", "Unicode"]
 uuid = "3fa0cd96-eef1-5676-8a61-b3b8758bbffb"
 
 [[deps.Random]]
-deps = ["SHA", "Serialization"]
+deps = ["SHA"]
 uuid = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
 
 [[deps.Random123]]
@@ -1168,8 +1194,9 @@ version = "1.0.1"
 uuid = "6462fe0b-24de-5631-8697-dd941f90decc"
 
 [[deps.SparseArrays]]
-deps = ["LinearAlgebra", "Random"]
+deps = ["Libdl", "LinearAlgebra", "Random", "Serialization", "SuiteSparse_jll"]
 uuid = "2f01184e-e22b-5df5-ae63-d93ebab69eaf"
+version = "1.10.0"
 
 [[deps.SpecialFunctions]]
 deps = ["ChainRulesCore", "IrrationalConstants", "LogExpFunctions", "OpenLibm_jll", "OpenSpecFun_jll"]
@@ -1180,16 +1207,22 @@ version = "2.1.7"
 [[deps.Statistics]]
 deps = ["LinearAlgebra", "SparseArrays"]
 uuid = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
+version = "1.10.0"
+
+[[deps.SuiteSparse_jll]]
+deps = ["Artifacts", "Libdl", "libblastrampoline_jll"]
+uuid = "bea87d4a-7f5b-5778-9afe-8cc45184846c"
+version = "7.2.1+1"
 
 [[deps.TOML]]
 deps = ["Dates"]
 uuid = "fa267f1f-6049-4f14-aa54-33bafae1ed76"
-version = "1.0.0"
+version = "1.0.3"
 
 [[deps.Tar]]
 deps = ["ArgTools", "SHA"]
 uuid = "a4e569a6-e804-4fa4-b0f3-eef7a1d5b13e"
-version = "1.10.1"
+version = "1.10.0"
 
 [[deps.Test]]
 deps = ["InteractiveUtils", "Logging", "Random", "Serialization"]
@@ -1226,27 +1259,26 @@ version = "1.3.0"
 [[deps.Zlib_jll]]
 deps = ["Libdl"]
 uuid = "83775a58-1f1d-513f-b197-d71354ab007a"
-version = "1.2.12+3"
+version = "1.2.13+1"
 
 [[deps.libblastrampoline_jll]]
-deps = ["Artifacts", "Libdl", "OpenBLAS_jll"]
+deps = ["Artifacts", "Libdl"]
 uuid = "8e850b90-86db-534c-a0d3-1478176c7d93"
-version = "5.1.1+0"
+version = "5.8.0+1"
 
 [[deps.nghttp2_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "8e850ede-7688-5339-a07c-302acd2aaf8d"
-version = "1.48.0+0"
+version = "1.52.0+1"
 
 [[deps.p7zip_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "3f19e933-33d8-53b3-aaab-bd5110c3b7a0"
-version = "17.4.0+0"
+version = "17.4.0+2"
 """
 
 # ╔═╡ Cell order:
 # ╟─5d8d2585-5c04-4f33-b547-8f44b3336f96
-# ╟─5dbe9644-eb50-4204-b8c6-a1aac5fe3736
 # ╟─a2680f00-7c9a-11ed-2dfe-d9cd445f2e57
 # ╠═b90d6694-b170-4646-b5a0-e477d4fe6f50
 # ╟─5ed407ea-4bba-4eaf-b47a-9ae95b28abba
@@ -1324,6 +1356,7 @@ version = "17.4.0+0"
 # ╟─40381501-952a-48a5-9a28-ee4bf1c65fd4
 # ╠═0be6a2d0-f470-436c-bbd7-8bab3635a34d
 # ╟─7fad0fc0-1a6a-437a-a1c2-ce2c70d41acf
+# ╠═54a92a14-405a-45d1-ad3a-5f42e4ce8789
 # ╟─946da67e-5aff-4de9-ba15-715a05264c4d
 # ╠═4da9796c-5102-44e7-8af3-dadbdabcce73
 # ╟─db4ceb7c-4ded-4048-88db-fd15b3231a5c

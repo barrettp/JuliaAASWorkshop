@@ -574,7 +574,7 @@ end
 # ╔═╡ 35f818c2-acee-4d20-9eb3-0c3ae37f3762
 md"""
 ```julia-repl
-julia> @benchmark bench_np($x, $y, $c)
+@benchmark bench_np($x, $y, $c)
 ```
 """
 

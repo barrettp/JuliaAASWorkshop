@@ -382,7 +382,7 @@ Now insert the inductor into the system and reconnect the pins.
 md"""
 The RLC circuit is also an ordinary differential equation (ODE). So we can also solve it using an ODE system.
 
-    @named _rc_model = ODESystem(rc_eqs, t)
+    @named _rlc_model = ODESystem(rlc_eqs, t)
 """
 
 # ╔═╡ d0da5f10-7528-491e-8729-6355d4a54c14
